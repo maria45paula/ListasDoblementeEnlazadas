@@ -11,16 +11,25 @@ public class ListaDoblementeEnlazadas {
     public void insertarAlFinal() {
     }
 
-    public void imprimirLista() {
+    public void insertarPorIndice() {
     }
 
-    public boolean insertarPorIndice() {
-        return false;
+    public void eliminarAlPrincipio() {
+
+    }
+
+    public void eliminarAlFinal() {
+
+    }
+
+    public void eliminarPorIndice() {
     }
 
     public void limpiar() {
     }
 
-    public void eliminarPorIndice() {
+    public void imprimirLista() {
     }
+
+
 }
