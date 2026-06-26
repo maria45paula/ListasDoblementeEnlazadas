@@ -23,6 +23,12 @@ public class ListaDoblementeEnlazadas {
 
     }
 
+    /**
+     * Metodo que permite eliminar un nodo de la lista doblemente enlazada por indice
+     *
+     * @param indice posicion del nodo a eliminar
+     * @Return devuelve el valor que tenia internamente el nodo que se elimino
+     **/
     public int eliminarPorIndice(int indice) {
         if (indice < 0 || indice >= tamanio) {
             System.out.println("Error:indice fuera de rango.");
@@ -43,14 +49,13 @@ public class ListaDoblementeEnlazadas {
         Nodo puntero = cabeza;
         int contador = 0;
 
-        while (contador <= indice - 1) {
+        while (contador < indice - 1) {
             puntero = puntero.siguiente;
             contador++;
         }
 
         if (indice == tamanio - 1) {
             int valorAEliminar = puntero.valor;
-            puntero.siguiente.anterior = puntero.anterior;
             puntero.anterior.siguiente = null;
             tamanio--;
             return valorAEliminar;
