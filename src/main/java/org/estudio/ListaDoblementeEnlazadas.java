@@ -5,21 +5,82 @@ public class ListaDoblementeEnlazadas {
     int tamanio;
 
 
-    public void insertarAlPrincipio() {
+    public int getTamanio() {
+        return tamanio;
     }
 
-    public void insertarAlFinal() {
+    public void insertarAlPrincipio(int valor) {
+        Nodo nodoNuevo = new Nodo(valor);
+        nodoNuevo.siguiente = cabeza;
+        cabeza.anterior = nodoNuevo;
+        cabeza = nodoNuevo;
+        tamanio++;
     }
 
-    public void insertarPorIndice() {
+    public void insertarAlFinal(int valor) {
+        Nodo nodoNuevo = new Nodo(valor);
+        if (this.cabeza == null) {
+            this.cabeza = nodoNuevo;
+        } else {
+            Nodo puntero = cabeza;
+            while (puntero.siguiente != null) {
+                puntero = puntero.siguiente;
+            }
+            puntero.siguiente = nodoNuevo;
+            nodoNuevo.anterior = puntero;
+        }
+        tamanio++;
     }
 
-    public void eliminarAlPrincipio() {
+    public boolean insertarPorIndice(int valor, int indice) {
+        if (indice < 0 || indice >= tamanio) {
+            System.out.println("Indice no valido");
+            return false;
+        }
+        if (indice == 0) {
+            insertarAlPrincipio(valor);
+            return true;
+        } else {
+            Nodo puntero = cabeza;
+            int contador = 0;
+            while (contador < indice - 1) {
+                puntero = puntero.siguiente;
+                contador++;
+            }
+            Nodo nodoNuevo = new Nodo(valor);
+            nodoNuevo.siguiente = puntero;
+            nodoNuevo.anterior = puntero.anterior;
+            puntero.anterior.siguiente = nodoNuevo;
+            puntero.anterior = nodoNuevo;
+            tamanio++;
+            return true;
+        }
+
+    }
+
+    public int eliminarAlPrincipio() {
+        int valorEliminado = cabeza.valor;
+        cabeza = cabeza.siguiente;
+        if (cabeza != null) {
+            cabeza.anterior = null;
+        }
+        tamanio--;
+        return valorEliminado;
+
+    }
+
+    public int eliminarAlFinal() {
         Nodo puntero = cabeza;
+        int contador = 0;
 
-    }
-
-    public void eliminarAlFinal() {
+        while (contador < tamanio - 1) {
+            puntero = puntero.siguiente;
+            contador++;
+        }
+        int valorAEliminar = puntero.valor;
+        puntero.anterior.siguiente = null;
+        tamanio--;
+        return valorAEliminar;
 
     }
 
@@ -71,10 +132,18 @@ public class ListaDoblementeEnlazadas {
     }
 
     public void limpiar() {
+        this.cabeza = null;
     }
 
     public void imprimirLista() {
+        if (this.cabeza != null) {
+            Nodo puntero = cabeza;
+            while (puntero != null) {
+                System.out.println(puntero.valor);
+                puntero = puntero.siguiente;
+            }
+        } else {
+            System.out.println("Lista vacia");
+        }
     }
-
-
 }
