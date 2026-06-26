@@ -11,8 +11,10 @@ public class ListaDoblementeEnlazadas {
 
     public void insertarAlPrincipio(int valor) {
         Nodo nodoNuevo = new Nodo(valor);
+        if (cabeza != null) {
+            cabeza.anterior = nodoNuevo;
+        }
         nodoNuevo.siguiente = cabeza;
-        cabeza.anterior = nodoNuevo;
         cabeza = nodoNuevo;
         tamanio++;
     }
@@ -23,6 +25,7 @@ public class ListaDoblementeEnlazadas {
             this.cabeza = nodoNuevo;
         } else {
             Nodo puntero = cabeza;
+
             while (puntero.siguiente != null) {
                 puntero = puntero.siguiente;
             }
@@ -59,8 +62,13 @@ public class ListaDoblementeEnlazadas {
     }
 
     public int eliminarAlPrincipio() {
+
+        if (isEmpty()) {
+            throw new IllegalStateException("La lista está vacia");
+        }
         int valorEliminado = cabeza.valor;
         cabeza = cabeza.siguiente;
+
         if (cabeza != null) {
             cabeza.anterior = null;
         }
@@ -72,6 +80,17 @@ public class ListaDoblementeEnlazadas {
     public int eliminarAlFinal() {
         Nodo puntero = cabeza;
         int contador = 0;
+
+        if (isEmpty()) {
+            throw new IllegalStateException("La lista está vacia");
+        }
+
+        if (tamanio == 1) {
+            int valorAEliminar = cabeza.valor;
+            cabeza = null;
+            tamanio--;
+            return valorAEliminar;
+        }
 
         while (contador < tamanio - 1) {
             puntero = puntero.siguiente;
@@ -91,36 +110,30 @@ public class ListaDoblementeEnlazadas {
      * @Return devuelve el valor que tenia internamente el nodo que se elimino
      **/
     public int eliminarPorIndice(int indice) {
+
+        if (isEmpty()) {
+            throw new IllegalStateException("La lista está vacia");
+        }
+
         if (indice < 0 || indice >= tamanio) {
-            System.out.println("Error:indice fuera de rango.");
-            return -10000;
+            throw new IndexOutOfBoundsException("Índice fuera de rango.");
         }
 
         if (indice == 0) {
-            int valorEliminado = cabeza.valor;
-            cabeza = cabeza.siguiente;
-            if (cabeza != null) {
-                cabeza.anterior = null;
-            }
-            tamanio--;
-            return valorEliminado;
+            return eliminarAlPrincipio();
         }
 
+        if (indice == tamanio - 1) {
+            int valorEliminado = eliminarAlFinal();
+            return valorEliminado;
+        }
 
         Nodo puntero = cabeza;
         int contador = 0;
 
-        while (contador < indice - 1) {
+        while (contador < indice) {
             puntero = puntero.siguiente;
             contador++;
-        }
-
-        if (indice == tamanio - 1) {
-            int valorAEliminar = puntero.valor;
-            puntero.anterior.siguiente = null;
-            tamanio--;
-            return valorAEliminar;
-
         }
 
         int valorAEliminar = puntero.valor;
@@ -133,6 +146,7 @@ public class ListaDoblementeEnlazadas {
 
     public void limpiar() {
         this.cabeza = null;
+        tamanio = 0;
     }
 
     public void imprimirLista() {
@@ -145,5 +159,9 @@ public class ListaDoblementeEnlazadas {
         } else {
             System.out.println("Lista vacia");
         }
+    }
+
+    public boolean isEmpty() {
+        return tamanio == 0;
     }
 }
